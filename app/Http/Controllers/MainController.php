@@ -26,12 +26,4 @@ class MainController extends Controller
     public function product($category, $product = null) {
         return view('product', ['product' => $product, 'category' => $category]);
     }
-
-    public function cart() {
-        return view('cart');
-    }
-
-    public function cartOrder() {
-        return view('order');
-    }
 }
