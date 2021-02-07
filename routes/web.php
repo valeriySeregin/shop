@@ -19,5 +19,6 @@ Route::get('/cart', 'CartController@cart')->name('cart');
 Route::get('/cart/order', 'CartController@cartOrder')->name('cart-order');
 Route::post('/cart/add/{id}', 'CartController@cartAdd')->name('cart-add');
 Route::post('/cart/remove/{id}', 'CartController@cartRemove')->name('cart-remove');
+Route::post('/cart/order', 'CartController@cartConfirm')->name('cart-confirm');
 Route::get('/{category}', 'MainController@category')->name('category');
 Route::get('/{category}/{product?}', 'MainController@product')->name('product');

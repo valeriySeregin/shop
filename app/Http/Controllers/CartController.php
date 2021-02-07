@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class CartController extends Controller
@@ -15,8 +16,36 @@ class CartController extends Controller
         return view('cart', compact('order'));
     }
 
+    public function cartConfirm(Request $request)
+    {
+        $orderId = session('orderId');
+        if (is_null($orderId)) {
+            return redirect()->route('index');
+        }
+
+        $order = Order::find($orderId);
+        $success = $order->saveOrder($request->name, $request->phone);
+
+        if ($success) {
+            session()->flash('success', 'Ваш заказ принят в обработку!');
+        } else {
+            session()->flash('warning', 'Произошла ошибка обработки заказа!');
+        }
+
+        session()->forget('orderId');
+
+        return redirect()->route('index');
+    }
+
     public function cartOrder() {
-        return view('order');
+        $orderId = session('orderId');
+        if (is_null($orderId)) {
+            return redirect()->route('index');
+        }
+
+        $order = Order::find($orderId);
+
+        return view('order', compact('order'));
     }
 
     public function cartAdd($productId)
@@ -36,6 +65,10 @@ class CartController extends Controller
         } else {
             $order->products()->attach($productId);
         }
+
+        $product = Product::find($productId);
+
+        session()->flash('success', 'Добавлен товар ' . $product->name);
 
         return redirect()->route('cart');
     }
@@ -57,6 +90,10 @@ class CartController extends Controller
                 $pivotRow->update();
             }
         }
+
+        $product = Product::find($productId);
+
+        session()->flash('warning', 'Удален товар ' . $product->name);
 
         return redirect()->route('cart');
     }
