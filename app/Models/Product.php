@@ -14,4 +14,13 @@ class Product extends Model
     {
         return $this->belongsTo(Category::class);
     }
+
+    public function getTotalPrice()
+    {
+        if (!is_null($this->pivot)) {
+            return $this->price * $this->pivot->count;
+        }
+
+        return $this->price;
+    }
 }
