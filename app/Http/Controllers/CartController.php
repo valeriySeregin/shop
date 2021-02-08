@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CartController extends Controller
 {
@@ -64,6 +65,11 @@ class CartController extends Controller
             $pivotRow->update();
         } else {
             $order->products()->attach($productId);
+        }
+
+        if (Auth::check()) {
+            $order->user_id = Auth::id();
+            $order->save();
         }
 
         $product = Product::find($productId);
