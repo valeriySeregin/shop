@@ -33,7 +33,7 @@
                 @endguest
 
                 @auth
-                    <li><a href="{{ route('home') }}">Панель администратора</a></li>
+                    <li><a href="{{ route('orders') }}">Панель администратора</a></li>
                     <li><a href="{{ route('get-logout') }}">Выйти</a></li>
                 @endauth
             </ul>

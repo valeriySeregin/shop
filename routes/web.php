@@ -26,7 +26,7 @@ Route::group([
     'prefix' => 'admin'
 ], function () {
     Route::group(['middleware' => 'is.admin'], function () {
-        Route::get('/orders', 'OrderController@index')->name('home');
+        Route::get('/orders', 'OrderController@index')->name('orders');
     });
 
     Route::resource('categories', 'CategoryController');
@@ -46,8 +46,6 @@ Route::group(['prefix' => 'cart'], function () {
         Route::post('/order', 'CartController@cartConfirm')->name('cart-confirm');
     });
 });
-
-
 
 Route::get('/{category}', 'MainController@category')->name('category');
 Route::get('/{category}/{product?}', 'MainController@product')->name('product');

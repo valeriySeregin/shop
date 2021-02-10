@@ -20,20 +20,20 @@
                 <tr>
                     <td>
                         <a href="{{ route('product', [$product->category->code, $product->code]) }}">
-                            <img height="56px" src="/storage/products/iphone_x.jpg">
+                            <img height="56px" src="{{ Storage::url($product->image) }}">
                             {{ $product->name }}
                         </a>
                     </td>
                     <td><span class="badge">{{ $product->pivot->count }}</span>
                         <div class="btn-group form-inline">
                             <form action="{{ route('cart-remove', $product) }}" method="POST">
-                                <button type="submit" class="btn btn-danger" href="">
+                                <button type="submit" class="btn btn-danger">
                                     <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
                                 </button>
                                 @csrf
                             </form>
                             <form action="{{ route('cart-add', $product) }}" method="POST">
-                                <button type="submit" class="btn btn-success" href="">
+                                <button type="submit" class="btn btn-success">
                                     <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
                                 </button>
                                 @csrf

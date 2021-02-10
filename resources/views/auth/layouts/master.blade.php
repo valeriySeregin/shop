@@ -36,7 +36,7 @@
                         <a href="{{ route('products.index') }}">Товары</a>
                     </li>
                     <li>
-                        <a href="{{ route('home') }}">Заказы</a>
+                        <a href="{{ route('orders') }}">Заказы</a>
                     </li>
                 </ul>
 
