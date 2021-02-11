@@ -20,20 +20,25 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav">
-                <li  class="active" ><a href="{{ route('index') }}">Все товары</a></li>
-                <li ><a href="{{ route('categories') }}">Категории</a>
+                <li @routeactive('index')><a href="{{ route('index') }}">Все товары</a></li>
+                <li @routeactive('categor*')><a href="{{ route('categories') }}">Категории</a>
                 </li>
-                <li ><a href="{{ route('cart') }}">В корзину</a></li>
+                <li @routeactive('cart*')><a href="{{ route('cart') }}">В корзину</a></li>
                 <li><a href="{{ route('index') }}">Сбросить проект в начальное состояние</a></li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
                 @guest
-                    <li><a href="{{ route('login') }}">Панель администратора</a></li>
+                    <li><a href="{{ route('login') }}">Войти</a></li>
                 @endguest
 
                 @auth
-                    <li><a href="{{ route('orders') }}">Панель администратора</a></li>
+                    @admin
+                        <li><a href="{{ route('orders') }}">Панель администратора</a></li>
+                    @else
+                        <li><a href="{{ route('person.orders.index') }}">Мои заказы</a></li>
+                    @endadmin
+
                     <li><a href="{{ route('get-logout') }}">Выйти</a></li>
                 @endauth
             </ul>
