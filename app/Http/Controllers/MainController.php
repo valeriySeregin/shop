@@ -10,7 +10,7 @@ use App\Http\Requests\ProductsFilterRequest;
 class MainController extends Controller
 {
     public function index(ProductsFilterRequest $request) {
-        $productsQuery = Product::query();
+        $productsQuery = Product::with('category');
 
         if ($request->filled('price_from')) {
             $productsQuery->where('price', '>=', $request->price_from);
@@ -26,7 +26,7 @@ class MainController extends Controller
             }
         }
 
-        $products = $productsQuery->paginate(6)->withPath('?' . $request->getQueryString());
+        $products = $productsQuery->paginate(12)->withPath('?' . $request->getQueryString());
 
         return view('index', compact('products'));
     }
