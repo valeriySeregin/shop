@@ -33,7 +33,7 @@ class CartController extends Controller
             session()->flash('warning', 'Произошла ошибка обработки заказа!');
         }
 
-        session()->forget('orderId');
+        Order::eraseOrderData();
 
         return redirect()->route('index');
     }
@@ -74,6 +74,8 @@ class CartController extends Controller
 
         $product = Product::find($productId);
 
+        Order::changeTotalPrice($product->price);
+
         session()->flash('success', 'Добавлен товар ' . $product->name);
 
         return redirect()->route('cart');
@@ -98,6 +100,8 @@ class CartController extends Controller
         }
 
         $product = Product::find($productId);
+
+        Order::changeTotalPrice(-$product->price);
 
         session()->flash('warning', 'Удален товар ' . $product->name);
 

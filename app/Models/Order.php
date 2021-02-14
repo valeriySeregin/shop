@@ -14,19 +14,36 @@ class Order extends Model
         return $this->belongsToMany(Product::class)->withPivot('count')->withTimestamps();
     }
 
-    //public function user()
-    //{
-    //    return $this->belongsTo(User::class);
-    //}
-
-    public function getTotalPrice()
+    public function scopeActive($query)
     {
-        $completePrice = 0;
+        return $query->where('status', 1);
+    }
+
+    public function calculateTotalPrice()
+    {
+        $totalPrice = 0;
         foreach($this->products as $product) {
-            $completePrice += $product->getTotalPrice();
+            $totalPrice += $product->getTotalPrice();
         }
 
-        return $completePrice;
+        return $totalPrice;
+    }
+
+    public static function eraseOrderData()
+    {
+        session()->forget('total_order_price');
+        session()->forget('orderId');
+    }
+
+    public static function changeTotalPrice($changingPrice)
+    {
+        $price = self::getTotalPrice() + $changingPrice;
+        session(['total_order_price' => $price]);
+    }
+
+    public static function getTotalPrice()
+    {
+        return session('total_order_price', 0);
     }
 
     public function saveOrder($name, $phone)
